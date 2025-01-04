@@ -1,0 +1,459 @@
+University Timetable Management System Documentation
+
+* Technology Stack
+
+• Backend: Node.js with Express.js framework
+• Database: MongoDB for data storage
+• Authentication: JSON Web Tokens (JWT) for user authentication
+
+------------------------------------------------------------------------------------
+* Installation and Setup
+------------------------------------------------------------------------------------
+
+1. Clone the project repository.
+2. Install dependencies using "npm install"
+3. Configure environment variables, including the MongoDB URI and JWT Secret Key.
+4. Run the Node.js server using "npm start"
+
+--------------------------------------------------------------------------------------
+  University Timetable Management System API
+
+* Authentication - New user registration
+---------------------------------------------------------------------------------------
+
+* POST method
+* URL : http://localhost:8080/auth/register
+
+* Request Body :
+
+  {
+    "username": "Asanka Ranaweera",
+    "email": "asanka12@gmail.com",
+    "password": "123456"
+  }
+
+* Response : 
+
+  {
+      "message": "User registered successfully",
+      "user": {
+          "username": "Asanka Ranaweera",
+          "email": "asanka12@gmail.com",
+          "password": "$2a$10$OP85AGZlbAHCSmoHxx6.pej9KXqE1DI7nAWZ4kUSFeH45IFZOz5VG",
+          "role": "student",
+          "_id": "65ffcdf1cd5f9971d844daa5",
+          "__v": 0
+      }
+  }
+* validations - input fields are not empty and unique and valid email address.
+
+-----------------------------------------------------------------------------------------
+* Authentication - Login
+-----------------------------------------------------------------------------------------
+
+* POST method
+* URL  : http://localhost:8080/auth/login
+
+* Request Body :
+
+ {
+    "email": "asanka12@gmail.com",
+    "password": "123456"
+ }
+
+* Response  :
+
+  {
+    "message": "Login successful",
+    "token":    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY5OTI0MDFiZjkwMzA4OGE0YWNkMWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTEyNjM0MjksImV4cCI6      MTcxMTI2NzAyOX0.zGh3E17IxohTQkzKkjavwNbGlKRHGEOkJp6rdhJ4DL4"    
+  }
+
+---------------------------------------------------------------------------------------------------------------------------
+* Create New Course
+----------------------------------------------------------------------------------------------------------------
+
+* POST method
+* URL  : http://localhost:8080/courses
+
+* Request Body :
+
+  {
+    "courseName": "Software Engineering",
+    "courseCode": "SE1111",
+    "description": "Design Patterns",
+    "credits": 4,
+    "schedule": "Monday, Wednesday, Friday 10:00 AM - 11:30 AM"
+  }
+
+* Response  :
+
+ {
+    "message": "Course created successfully",
+    "course": {
+        "courseName": "Software Engineering",
+        "courseCode": "SE1111",
+        "description": "Design Patterns",
+        "credits": 3,
+        "classSessions": [],
+        "schedule": "Monday, Wednesday, Friday 10:00 AM - 11:30 AM",
+        "_id": "65ffd139cd5f9971d844dab1",
+        "__v": 0
+    }
+ }
+
+-------------------------------------------------------------------------------------------
+* Get All Course
+-------------------------------------------------------------------------------------------
+
+* GET Method
+* URL : http://localhost:8080/courses
+* Response :
+
+    {
+        "faculty": {
+            "_id": "65f992401bf903088a4acd1b",
+            "name": "Asanka Ranaweera"
+        },
+        "classSessions": [],
+        "_id": "65f9cbd8f518bf6dcac4274a",
+        "courseName": "SE",
+        "courseCode": "SE1111",
+        "description": "SE",
+        "credits": 4,
+        "__v": 0
+    }
+
+
+----------------------------------------------------------------------------------------------
+* Update Course
+----------------------------------------------------------------------------------------------
+
+* PUT Method
+* URL : http://localhost:8080/courses/:id
+
+* Request Body :
+
+   {
+     "courseName": "Software Architecture",       // updated one
+     "courseCode": "SE1111",
+     "description": "Design Patterns",
+     "credits": 3,
+     "schedule": "Monday, Wednesday, Friday 10:00 AM - 11:30 AM"
+   }
+
+------------------------------------------------------------------------------------------------
+* Delete Course
+------------------------------------------------------------------------------------------------
+
+* DELETE Method
+* URL : http://localhost:8080/courses/:id
+
+
+
+-------------------------------------------------------------------------------------------------
+* Assign Faculty members to course
+-------------------------------------------------------------------------------------------------
+
+* PUT Method
+* URL : http://localhost:8080/courses/course:id/assign-faculty
+
+* Request Body :
+
+  {
+   "facultyId": "65f992401bf903088a4acd1b",
+   "facultyName": "Dilan Shanuka"
+  }
+
+* Response : 
+
+  {
+    "message": "Faculty assigned to course successfully",
+    "course": {
+        "faculty": {
+            "_id": "65f992401bf903088a4acd1b",
+            "name": "Sawan Alwathura"
+        },
+        "_id": "65fb2637a55e4fd2e7750136",
+        "courseName": "ABC Engineering",
+        "courseCode": "E1111",
+        "description": "Introduction to Engineering",
+        "credits": 2,
+        "classSessions": [],
+        "schedule": "Mon-Wed-Fri 10:00 AM - 11:30 AM",
+        "__v": 0
+    }
+  }
+
+
+-------------------------------------------------------------------------------------------------
+* Create New Class Session
+-------------------------------------------------------------------------------------------------
+
+* POST Method
+* URL : http://localhost:8080/class-sessions
+
+* Request Body :
+
+  {
+  "course": "65fb2637a55e4fd2e7750136",
+  "dateTime": "2024-03-25T10:00:00",
+  "faculty": "65f9b2e1bc2bcc76f1873ed4",
+  "location": "Room 105",
+  "students": ["65ffcdf1cd5f9971d844daa5"],
+  "type": "ClassSession"
+  }
+
+* Response :
+ 
+   {
+    "message": "Class session created successfully",
+    "classSession": {
+        "course": "65fb2637a55e4fd2e7750136",
+        "dateTime": "2024-03-25T04:30:00.000Z",
+        "faculty": "65f9b2e1bc2bcc76f1873ed4",
+        "location": "Room 105",
+        "students": [
+            "65ffcdf1cd5f9971d844daa5"
+        ],
+        "_id": "6600191aba8d31b4038f5c9a",
+        "__v": 0
+    }
+  }
+
+---------------------------------------------------------------------------------------------------
+* Get All Class Sessions For a Student
+---------------------------------------------------------------------------------------------------
+
+* GET Method
+* URL : http://localhost:8080/class-sessions/timetable/student:id
+
+* Response :
+
+  [
+    {
+        "_id": "65fa950303c72914f467bda1",
+        "course": "65f9cbd8f518bf6dcac4274a",
+        "dateTime": "2024-03-25T04:30:00.000Z",
+        "faculty": "65f992401bf903088a4acd1b",
+        "location": "Room 101",
+        "students": [
+            "65fa7414c16a47e88723d723"
+        ],
+        "__v": 0
+    },
+    {
+        "_id": "65fa9981832942b97f4f88a6",
+        "course": "65f9cbd8f518bf6dcac4274a",
+        "dateTime": "2024-03-25T04:30:00.000Z",
+        "faculty": "65f992401bf903088a4acd1b",
+        "location": "Room 101",
+        "students": [
+            "65fa7414c16a47e88723d723",
+            "65fa7414c16a47e88723d723"
+        ],
+        "__v": 0
+    }
+  ]
+
+--------------------------------------------------------------------------------------------
+*  Update Class Sessions
+--------------------------------------------------------------------------------------------
+
+* PUT Method
+* URL : http://localhost:8080/class-sessions/classsession:id
+
+* Request Body :
+
+  {
+    "dateTime": "2024-03-26T11:00:00",
+    "location": "Room 102"              // updated one
+  }
+
+-----------------------------------------------------------------------------------------------
+* Delete Class Session
+-----------------------------------------------------------------------------------------------
+
+* DELETE Method 
+* URL : http://localhost:8080/class-sessions/classsession:id
+
+
+
+-----------------------------------------------------------------------------------------------
+* Create a New Class Room
+-----------------------------------------------------------------------------------------------
+
+* POST Method
+* URL : http://localhost:8080/rooms
+* Request Body :
+
+  {
+    "name": "Room 101",
+    "description": "Large classroom with projector",
+    "capacity": 200
+  }
+
+* Response  : 
+ 
+   {
+    "message": "Room created successfully",
+    "room": {
+        "name": "Room 101",
+        "description": "Large classroom with projector",
+        "capacity": 200,
+        "isAvailable": true,
+        "_id": "660029ad9758631ee526df69",
+        "__v": 0
+    }
+   }
+
+
+-----------------------------------------------------------------------------------------------
+* Get All Class Rooms
+-----------------------------------------------------------------------------------------------
+
+* GET Method
+* URL : http://localhost:8080/rooms
+* Response :
+
+   [
+    {
+        "_id": "65fa63f50551b6e9939ac08b",
+        "name": " Room A234",
+        "description": "Large classroom with projector",
+        "capacity": 250,
+        "isAvailable": true,
+        "__v": 0
+    }
+  ]
+
+
+-----------------------------------------------------------------------------------------------
+* Create a booking
+-----------------------------------------------------------------------------------------------
+
+* POST Method
+* URL : http://localhost:8080/bookings/create
+* Request Body :
+
+  {
+  "roomId": "660029ad9758631ee526df62",
+  "startTime": "2024-03-27T10:00:00",
+  "endTime": "2024-03-27T12:00:00"
+  }
+
+* Responses:
+
+  {
+    "message": "Booking created successfully",
+    "booking": {
+        "roomId": "660029ad9758631ee526df62",
+        "startTime": "2024-03-28T04:30:00.000Z",
+        "endTime": "2024-03-28T06:30:00.000Z",
+        "_id": "66003bf5237598cdcbe871da",
+        "__v": 0
+    }
+  }
+
+-----------------------------------------------------------------------------------------------
+* Create a New Resource
+-----------------------------------------------------------------------------------------------
+
+* POST Method
+* URL : http://localhost:8080/resources
+* Request Body :
+
+  {
+    "name": "Projector",
+    "description": "High-quality projector for presentations",
+    "quantity": 5,
+    "isAvailable": true
+  }
+
+-----------------------------------------------------------------------------------------------
+* Get All Resources
+-----------------------------------------------------------------------------------------------
+
+* GET Method
+* URL : http://localhost:8080/resources
+* Response
+
+[
+    {
+        "_id": "65fa652b0551b6e9939ac090",
+        "name": "Projector 2",
+        "description": "High-quality projector for presentations",
+        "quantity": 5,
+        "isAvailable": true,
+        "__v": 0
+    }
+]
+
+
+-----------------------------------------------------------------------------------------------
+* Enroll in a Course
+-----------------------------------------------------------------------------------------------
+
+* POST Method
+* URL : http://localhost:8080/enrollments/enroll
+* Request Body :
+  {
+    "studentId": "65ffcdf1cd5f9971d844daa5",
+    "studentName": "Dilan Shanuka",
+    "courseId": "65f9cbd8f518bf6dcac4274a",
+    "courseName": "SE"
+ }
+
+-----------------------------------------------------------------------------------------------
+* Get Student Enrolled Course
+-----------------------------------------------------------------------------------------------
+
+* GET Method
+* URL : http://localhost:8080/enrollments/timetable/student:id
+* Response
+ [
+    {
+        "courseName": "Software Engineering",
+        "schedule": "Monday, Wednesday, Friday 10:00 AM - 11:30 AM"
+    }
+ ]
+
+
+
+
+-----------------------------------------------------------------------------------------------
+* 
+-----------------------------------------------------------------------------------------------
+
+* POST Method
+* URL : 
+* Request Body :
+
+
+-----------------------------------------------------------------------------------------------
+* Get all the enrollments to a course
+-----------------------------------------------------------------------------------------------
+
+* GET Method
+* URL : http://localhost:8080/enrollments/course/course:id/enrollments
+
+
+
+-----------------------------------------------------------------------------------------------
+* Remove a student from a course
+-----------------------------------------------------------------------------------------------
+
+* PUT Method
+* URL : http://localhost:8080/enrollments/course/course:id/enrollments
+
+-----------------------------------------------------------------------------------------------
+* Create a Notification
+-----------------------------------------------------------------------------------------------
+
+* POST Method
+* URL : http://localhost:8080/notifications/create
+
+
+
+
+
+
