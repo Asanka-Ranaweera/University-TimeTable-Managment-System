@@ -1,6 +1,6 @@
-# University-TimeTable-Managment-System
+#  RESTful API For University-TimeTable-Managment-System
 
-<h1>University Timetable Management System Documentation</h1>
+
 
 <h2>Technology Stack</h2>
 <ul>
